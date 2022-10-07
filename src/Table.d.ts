@@ -3,9 +3,17 @@
 */
 
 import { AnyEntity, AnyModel, Model, OneIndexSchema, OneParams, OneProperties, OneModelSchema, OneSchema, Paged} from "./Model";
+import { DynamoDBRecord } from "aws-lambda";
 
 export type EntityGroup = {
     [key: string]: AnyEntity[]
+};
+
+export type StreamEntityGroup = {
+    [key: string]: {
+        new?: AnyEntity,
+        old?: AnyEntity
+    }[]
 };
 
 type TableConstructorParams = {
@@ -107,4 +115,5 @@ export class Table {
 
     marshall(item: AnyEntity | AnyEntity[], params?: OneParams) : AnyEntity;
     unmarshall(item: AnyEntity | AnyEntity[], params?: OneParams) : AnyEntity;
+    stream(records: DynamoDBRecord[], params?: OneParams) : StreamEntityGroup;
 }
