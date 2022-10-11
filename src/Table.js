@@ -1058,6 +1058,7 @@ export class Table {
             // Built in unmarshaller for SDK v2 isn't compatible with Stream Record Images
             return Converter.unmarshall(image)
         }
+        const tableModels = this.listModels()
 
         const result = {}
         for (const record of records) {
@@ -1075,7 +1076,7 @@ export class Table {
                 typeNew = jsonNew[this.typeField]
 
                 // If type not found then don't do anything
-                if (typeNew) {
+                if (typeNew && tableModels.includes(typeNew)) {
                     model.new = this.schema.models[typeNew].transformReadItem(
                         'get', jsonNew, {}, params)
                 }
@@ -1087,7 +1088,7 @@ export class Table {
                 typeOld = jsonOld[this.typeField]
 
                 // If type not found then don't do anything
-                if (typeOld) {
+                if (typeOld && tableModels.includes(typeOld)) {
                     // If there was a new image of a different type then skip
                     if (typeNew && typeNew !== typeOld) {
                         continue

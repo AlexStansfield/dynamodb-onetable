@@ -4,7 +4,6 @@ import {DynamoDBRecord} from "aws-lambda/trigger/dynamodb-stream";
 const table = new Table({
     name: 'StreamTestTable',
     client: Client,
-    partial: false,
     schema: {
         format: 'onetable:1.1.0',
         version: '0.0.1',
